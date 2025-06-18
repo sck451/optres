@@ -5,6 +5,7 @@ import { UnwrapError } from "../UnwrapError/UnwrapError.ts";
 /**
  * Construct a new {@link None} object
  * @returns a new None value
+ * @typeParam T Type of the value the Option can contain
  */
 export function none<T = never>(): None<T> {
   return new None();
@@ -12,6 +13,8 @@ export function none<T = never>(): None<T> {
 
 /**
  * An object representing the absence of a value.
+ *
+ * @typeParam T Type of the value the Option can contain
  */
 export class None<T = never> {
   /**
@@ -80,6 +83,7 @@ export class None<T = never> {
    * Map a {@link Some} value to another with a function.
    * @param fn Function to apply to the value.
    * @returns A new {@link Option} with the mapped value or `None`.
+   * @typeParam U The type that `map` will transform a `Some` value into
    */
   map<U>(_fn: (value: T) => U): None<U> {
     return none();
@@ -99,6 +103,8 @@ export class None<T = never> {
    * @param defaultValue Value to return if `None`.
    * @param fn Function to map the value.
    * @returns Result of `fn` or `defaultValue`.
+   * @typeParam U The type of the default value supplied for a None value and
+   * the return value of the function supplied in the case of a Some value
    */
   mapOr<U>(defaultValue: U, _fn: (val: T) => U): U {
     return defaultValue;
@@ -109,6 +115,8 @@ export class None<T = never> {
    * @param defaultFn Function to produce fallback value.
    * @param fn Function to apply to the value.
    * @returns Result of `fn` or `defaultFn`.
+   * @typeParam U The type returned by the callback for a None value and
+   * the return value of the function for a Some value
    */
   mapOrElse<U>(defaultFn: () => U, _someFn: (val: T) => U): U {
     return defaultFn();
@@ -119,6 +127,8 @@ export class None<T = never> {
    * {@link Ok}.
    * @param err Error to use if `None`.
    * @returns An `Ok` if `Some`, or `Err` otherwise.
+   * @typeParam E The type of the error that is provided if the Option is a
+   * `None` value
    */
   okOr<E>(error: E): Err<T, E> {
     return err(error);
@@ -134,6 +144,7 @@ export class None<T = never> {
    * Return `optionB` if {@link Some}, otherwise `None`.
    * @param optionB Another option to return if `Some`.
    * @returns `optionB` if `Some`, else `None`.
+   * @typeParam U The type of the value contained in `optionB`
    */
   and<U>(_optionB: Option<U>): None<never> {
     return none();
@@ -143,6 +154,7 @@ export class None<T = never> {
    * Chain another `Option`-producing function if {@link Some}.
    * @param fn Function to map the value to another `Option`.
    * @returns Result of `fn` if `Some`, else `None`.
+   * @typeParam U The type of the value returned by the callback function
    */
   andThen<U>(_fn: (value: T) => Option<U>): None<never> {
     return none();
@@ -192,6 +204,7 @@ export class None<T = never> {
    * Zip two {@link Option}s into one `Option` of a tuple.
    * @param optionB The second option.
    * @returns `Some<[A, B]>` if both are `Some`, else `None`.
+   * @typeParam U The type contained within `optionB`
    */
   zip<U>(_optionB: Option<U>): None<never> {
     return none();
@@ -202,6 +215,9 @@ export class None<T = never> {
    * @param optionB The second option.
    * @param fn Function to combine values.
    * @returns `Some(fn(a, b))` if both are `Some`, else `None`.
+   * @typeParam U The type contained within `optionB`
+   * @typeParam R The return type of the callback function if both `Option`s
+   * are `Some` values
    */
   zipWith<U, R>(
     _optionB: Option<U>,
@@ -214,6 +230,9 @@ export class None<T = never> {
    * Pattern match on the {@link Option}.
    * @param matcher Object with `Some` and `None` handler functions.
    * @returns Result of the matching function.
+   * @typeParam R The type that must be returned by both callback functions.
+   * If they need to be distinct types, the union of these types should be
+   * supplied as an explicit type argument, e.g. `match<number, string>(...)`.
    */
   match<R>(matcher: {
     Some: (value: T) => R;
