@@ -1,6 +1,5 @@
 import { type None, none, type Option } from "./Option.ts";
 import { type Ok, ok } from "../Result/Result.ts";
-import type { OptionBase } from "./OptionBase.ts";
 
 /**
  * Construct a new {@link Some} object
@@ -15,7 +14,7 @@ export function some<T>(value: T): Some<T> {
 /**
  * An object representing a value that is present.
  */
-export class Some<T> implements OptionBase<T> {
+export class Some<T> {
   /**
    * Construct a new {@link Some} object
    * @param value The value of the Some

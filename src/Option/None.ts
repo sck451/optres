@@ -1,6 +1,5 @@
 import { type Option, type Some, some } from "./Option.ts";
 import { type Err, err } from "../Result/Result.ts";
-import { OptionBase } from "./OptionBase.ts";
 import { UnwrapError } from "../UnwrapError/UnwrapError.ts";
 
 /**
@@ -14,7 +13,7 @@ export function none<T = never>(): None<T> {
 /**
  * An object representing the absence of a value.
  */
-export class None<T = never> extends OptionBase<T> {
+export class None<T = never> {
   /**
    * Test if the Option is a {@link Some} value.
    * @returns `true` if a `Some` value, `false` if a `None` value.

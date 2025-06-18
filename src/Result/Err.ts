@@ -1,6 +1,5 @@
 import type { Ok, Result } from "./Result.ts";
 import { type None, none, type Some, some } from "../Option/Option.ts";
-import { ResultBase } from "./ResultBase.ts";
 import { UnwrapError } from "../UnwrapError/UnwrapError.ts";
 
 /**
@@ -14,14 +13,12 @@ export function err<E>(error: E): Err<never, E> {
 /**
  * An object representing the failure of an operation.
  */
-export class Err<T = never, E = unknown> extends ResultBase<T, E> {
+export class Err<T = never, E = unknown> {
   /**
    * Construct a new {@link Err} object
    * @param error The error value of the Result
    */
-  constructor(private readonly error: E) {
-    super();
-  }
+  constructor(private readonly error: E) {}
 
   /**
    * Test if the Result is an {@link Ok} value.
