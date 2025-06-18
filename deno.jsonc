@@ -1,7 +1,7 @@
 {
   "name": "@sck/optres",
   "exports": "./main.ts",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "license": "MIT",
   "lint": { "rules": { "tags": ["jsr"] } },
   "imports": {
