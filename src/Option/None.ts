@@ -30,7 +30,7 @@ export class None<T = never> {
    * @param fn Function to test the {@link Some} value.
    * @returns `true` if `Some` and predicate returns `true`, else `false`.
    */
-  isSomeAnd(_fn: (value: T) => boolean): false {
+  isSomeAnd(fn: (value: T) => boolean): false {
     return false;
   }
 
@@ -47,7 +47,7 @@ export class None<T = never> {
    * @param fn Function to test the `Some` value.
    * @returns `true` if `None` or predicate returns `true`.
    */
-  isNoneOr(_fn: (value: T) => boolean): true {
+  isNoneOr(fn: (value: T) => boolean): true {
     return true;
   }
 
@@ -85,7 +85,7 @@ export class None<T = never> {
    * @returns A new {@link Option} with the mapped value or `None`.
    * @typeParam U The type that `map` will transform a `Some` value into
    */
-  map<U>(_fn: (value: T) => U): None<U> {
+  map<U>(fn: (value: T) => U): None<U> {
     return none();
   }
 
@@ -94,7 +94,7 @@ export class None<T = never> {
    * @param fn Function to apply to the value.
    * @returns The original {@link Option}.
    */
-  inspect(_fn: (value: T) => void): None<T> {
+  inspect(fn: (value: T) => void): None<T> {
     return this;
   }
 
@@ -106,7 +106,7 @@ export class None<T = never> {
    * @typeParam U The type of the default value supplied for a None value and
    * the return value of the function supplied in the case of a Some value
    */
-  mapOr<U>(defaultValue: U, _fn: (val: T) => U): U {
+  mapOr<U>(defaultValue: U, fn: (val: T) => U): U {
     return defaultValue;
   }
 
@@ -118,7 +118,7 @@ export class None<T = never> {
    * @typeParam U The type returned by the callback for a None value and
    * the return value of the function for a Some value
    */
-  mapOrElse<U>(defaultFn: () => U, _someFn: (val: T) => U): U {
+  mapOrElse<U>(defaultFn: () => U, someFn: (val: T) => U): U {
     return defaultFn();
   }
 
@@ -146,7 +146,7 @@ export class None<T = never> {
    * @returns `optionB` if `Some`, else `None`.
    * @typeParam U The type of the value contained in `optionB`
    */
-  and<U>(_optionB: Option<U>): None<never> {
+  and<U>(optionB: Option<U>): None<never> {
     return none();
   }
 
@@ -156,7 +156,7 @@ export class None<T = never> {
    * @returns Result of `fn` if `Some`, else `None`.
    * @typeParam U The type of the value returned by the callback function
    */
-  andThen<U>(_fn: (value: T) => Option<U>): None<never> {
+  andThen<U>(fn: (value: T) => Option<U>): None<never> {
     return none();
   }
 
@@ -165,7 +165,7 @@ export class None<T = never> {
    * @param fn Predicate function.
    * @returns `Some` if predicate returns `true`, else `None`.
    */
-  filter(_fn: (value: T) => boolean): None<never> {
+  filter(fn: (value: T) => boolean): None<never> {
     return none();
   }
 
@@ -206,7 +206,7 @@ export class None<T = never> {
    * @returns `Some<[A, B]>` if both are `Some`, else `None`.
    * @typeParam U The type contained within `optionB`
    */
-  zip<U>(_optionB: Option<U>): None<never> {
+  zip<U>(optionB: Option<U>): None<never> {
     return none();
   }
 
@@ -220,8 +220,8 @@ export class None<T = never> {
    * are `Some` values
    */
   zipWith<U, R>(
-    _optionB: Option<U>,
-    _fn: (optA: T, optB: U) => R,
+    optionB: Option<U>,
+    fn: (optA: T, optB: U) => R,
   ): None<never> {
     return none();
   }

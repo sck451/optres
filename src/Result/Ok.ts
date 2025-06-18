@@ -56,7 +56,7 @@ export class Ok<T, E = never> {
    * @param fn Function to test the `Err` error value.
    * @returns `true` if `Err` and the test passes.
    */
-  isErrAnd(_fn: (err: E) => boolean): false {
+  isErrAnd(fn: (err: E) => boolean): false {
     return false;
   }
 
@@ -94,7 +94,7 @@ export class Ok<T, E = never> {
    * @typeParam U The type of the `defaultValue` and of the return value of
    * the callback functions, which will then be returned by `mapOr`.
    */
-  mapOr<U>(_defaultValue: U, fn: (val: T) => U): U {
+  mapOr<U>(defaultValue: U, fn: (val: T) => U): U {
     return fn(this.value);
   }
 
@@ -106,7 +106,7 @@ export class Ok<T, E = never> {
    * @typeParam U The return type of both callback functions, which will then
    * be returned by `mapOrElse`.
    */
-  mapOrElse<U>(_defaultFn: (err: E) => U, fn: (val: T) => U): U {
+  mapOrElse<U>(defaultFn: (err: E) => U, fn: (val: T) => U): U {
     return fn(this.value);
   }
 
@@ -117,7 +117,7 @@ export class Ok<T, E = never> {
    * @typeParam F The new error type of an `Err` value, which must be the return
    * type of the callback function `fn`.
    */
-  mapErr<F>(_fn: (err: E) => F): Ok<T, F> {
+  mapErr<F>(fn: (err: E) => F): Ok<T, F> {
     return ok(this.value);
   }
 
@@ -136,7 +136,7 @@ export class Ok<T, E = never> {
    * @param fn Function to run on the `Err` value.
    * @returns The original `Result`.
    */
-  inspectErr(_fn: (err: E) => void): Ok<T, E> {
+  inspectErr(fn: (err: E) => void): Ok<T, E> {
     return this;
   }
 
@@ -154,7 +154,7 @@ export class Ok<T, E = never> {
    * @throws If the value is `Err`.
    * @returns The `Ok` value.
    */
-  unwrap(_message: string = `Expected ok() but got ${this}`): T {
+  unwrap(message: string = `Expected ok() but got ${this}`): T {
     return this.value;
   }
 
@@ -216,7 +216,7 @@ export class Ok<T, E = never> {
    * @typeParam F The `Err` type of `resultB`, which will be the Err type of
    * the `Result` returned by `or`.
    */
-  or<F>(_resultB: Result<T, F>): Ok<T, F> {
+  or<F>(resultB: Result<T, F>): Ok<T, F> {
     return ok(this.value);
   }
 
@@ -227,7 +227,7 @@ export class Ok<T, E = never> {
    * @typeParam F The `Err` type of the `Result` returned by the callback `fn`,
    * which will be the Err type of the `Result` returned by `orElse`.
    */
-  orElse<F>(_fn: (err: E) => Result<T, F>): Ok<T, F> {
+  orElse<F>(fn: (err: E) => Result<T, F>): Ok<T, F> {
     return ok(this.value);
   }
 
@@ -236,7 +236,7 @@ export class Ok<T, E = never> {
    * @param defaultValue Value to return if `Err`.
    * @returns The `Ok` value or `defaultValue` if `Err`.
    */
-  unwrapOr(_defaultValue: T): T {
+  unwrapOr(defaultValue: T): T {
     return this.value;
   }
 
@@ -245,7 +245,7 @@ export class Ok<T, E = never> {
    * @param fn Function to compute a fallback value from `Err`.
    * @returns The `Ok` value or the result of `fn` if `Err`.
    */
-  unwrapOrElse(_fn: (err: E) => T): T {
+  unwrapOrElse(fn: (err: E) => T): T {
     return this.value;
   }
 

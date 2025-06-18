@@ -40,7 +40,7 @@ export class Err<T = never, E = unknown> {
    * @param fn Function to test the `Ok` value.
    * @returns `true` if `Ok` and the test passes.
    */
-  isOkAnd(_fn: (val: T) => boolean): boolean {
+  isOkAnd(fn: (val: T) => boolean): boolean {
     return false;
   }
 
@@ -83,7 +83,7 @@ export class Err<T = never, E = unknown> {
    * @returns A new `Result` with the function applied to the `Ok` value.
    * @typeParam U The type that `map` will transform an `Ok` value into
    */
-  map<U>(_fn: (val: T) => U): Err<never, E> {
+  map<U>(fn: (val: T) => U): Err<never, E> {
     return err(this.error);
   }
 
@@ -95,7 +95,7 @@ export class Err<T = never, E = unknown> {
    * @typeParam U The type of the `defaultValue` and of the return value of
    * the callback functions, which will then be returned by `mapOr`.
    */
-  mapOr<U>(defaultValue: U, _fn: (val: T) => U): U {
+  mapOr<U>(defaultValue: U, fn: (val: T) => U): U {
     return defaultValue;
   }
 
@@ -107,7 +107,7 @@ export class Err<T = never, E = unknown> {
    * @typeParam U The return type of both callback functions, which will then
    * be returned by `mapOrElse`.
    */
-  mapOrElse<U>(defaultFn: (err: E) => U, _fn: (val: T) => U): U {
+  mapOrElse<U>(defaultFn: (err: E) => U, fn: (val: T) => U): U {
     return defaultFn(this.error);
   }
 
@@ -127,7 +127,7 @@ export class Err<T = never, E = unknown> {
    * @param fn Function to run on the `Ok` value.
    * @returns The original `Result`.
    */
-  inspect(_fn: (val: T) => void): Err<never, E> {
+  inspect(fn: (val: T) => void): Err<never, E> {
     return err(this.error);
   }
 
@@ -163,7 +163,7 @@ export class Err<T = never, E = unknown> {
    * @throws If the value is `Ok`.
    * @returns The `Err` value.
    */
-  unwrapErr(_message: string = `Expected error but got ${this}`): E {
+  unwrapErr(message: string = `Expected error but got ${this}`): E {
     return this.error;
   }
 
@@ -175,7 +175,7 @@ export class Err<T = never, E = unknown> {
    * @typeParam U The `Ok` type of `optionB`, which will also be the
    * `Ok` type of the returned `Option`.
    */
-  and<U>(_resultB: Result<U, E>): Err<never, E> {
+  and<U>(resultB: Result<U, E>): Err<never, E> {
     return err(this.error);
   }
 
@@ -186,7 +186,7 @@ export class Err<T = never, E = unknown> {
    * @typeParam U The `Ok` type returned from the callback `fn`, which will
    * also be the `Ok` type of the returned `Option`.
    */
-  andThen<U>(_fn: (val: T) => Result<U, E>): Err<never, E> {
+  andThen<U>(fn: (val: T) => Result<U, E>): Err<never, E> {
     return err(this.error);
   }
 
@@ -205,7 +205,7 @@ export class Err<T = never, E = unknown> {
    * be added to a type union with {@link E} and be the `Err` type returned
    * by `chain`.
    */
-  chain<U, F>(_fn: (value: T) => Result<U, F>): Err<never, E> {
+  chain<U, F>(fn: (value: T) => Result<U, F>): Err<never, E> {
     return err(this.error);
   }
 

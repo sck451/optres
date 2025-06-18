@@ -64,7 +64,7 @@ export class Some<T> {
    * @throws {Error}
    * @returns The unwrapped value of `Some`.
    */
-  unwrap(_message: string = ""): T {
+  unwrap(message: string = ""): T {
     return this.value;
   }
 
@@ -73,7 +73,7 @@ export class Some<T> {
    * @param defaultValue Value to return if `None`.
    * @returns The `Some` value or `defaultValue`.
    */
-  unwrapOr(_defaultValue: T): T {
+  unwrapOr(defaultValue: T): T {
     return this.value;
   }
 
@@ -82,7 +82,7 @@ export class Some<T> {
    * @param fn Function producing fallback value.
    * @returns The `Some` value or result of `fn`.
    */
-  unwrapOrElse(_fn: () => T): T {
+  unwrapOrElse(fn: () => T): T {
     return this.value;
   }
 
@@ -115,7 +115,7 @@ export class Some<T> {
    * @typeParam U The type of the default value supplied for a None value and
    * the return value of the function supplied in the case of a Some value
    */
-  mapOr<U>(_defaultValue: U, fn: (val: T) => U): U {
+  mapOr<U>(defaultValue: U, fn: (val: T) => U): U {
     return fn(this.value);
   }
 
@@ -127,7 +127,7 @@ export class Some<T> {
    * @typeParam U The type returned by the callback for a None value and
    * the return value of the function for a Some value
    */
-  mapOrElse<U>(_defaultFn: () => U, someFn: (val: T) => U): U {
+  mapOrElse<U>(defaultFn: () => U, someFn: (val: T) => U): U {
     return someFn(this.value);
   }
 
@@ -139,7 +139,7 @@ export class Some<T> {
    * @typeParam E The type of the error that is provided if the Option is a
    * `None` value
    */
-  okOr<E>(_err: E): Ok<T, E> {
+  okOr<E>(err: E): Ok<T, E> {
     return ok(this.value);
   }
 
@@ -189,7 +189,7 @@ export class Some<T> {
    * @param optionB Fallback {@link Some}.
    * @returns The original `Option` if `Some`, otherwise `optionB`.
    */
-  or(_optionB: Option<T>): Some<T> {
+  or(optionB: Option<T>): Some<T> {
     return this;
   }
 
@@ -199,7 +199,7 @@ export class Some<T> {
    * @param fn Function returning a fallback `Option`.
    * @returns The original `Option` if `Some`, or the result of `fn`.
    */
-  orElse(_fn: () => Option<T>): Some<T> {
+  orElse(fn: () => Option<T>): Some<T> {
     return this;
   }
 
