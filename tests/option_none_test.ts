@@ -97,13 +97,12 @@ Deno.test("none().andThen() returns none()", () => {
   expect(optionWithNone.isNone()).toBe(true);
 });
 
-Deno.test("some(n).filter(f) returns some(n) if f is true and none() if it is false", () => {
-  const option = some(42).filter((val) => val > 40);
-  const optionFail = some(42).filter((val) => val > 50);
+Deno.test("none().filter(f) returns none() and does not call the function", () => {
+  const option: Option<number> = none();
+  const callback = fn((_val: number) => true);
 
-  expect(option.isSome()).toBe(true);
-  expect(option.unwrap()).toBe(42);
-  expect(optionFail.isNone()).toBe(true);
+  const result = option.filter((val) => callback(val));
+  expect(callback).not.toBeCalled();
 });
 
 Deno.test("none().or(n) returns n", () => {

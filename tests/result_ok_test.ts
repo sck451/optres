@@ -10,11 +10,9 @@ Deno.test("OK result is Ok and not Err", () => {
 
 Deno.test("ok().isOkAnd(n) is n", () => {
   const a: Result<number, string> = ok(42);
-  const b: Result<string, string> = ok("hello");
-  const c: Result<number, string> = err("error");
 
-  expect(a.and(b).isOk()).toBe(true);
-  expect(a.and(c).isOk()).toBe(false);
+  expect(a.isOkAnd(() => true)).toBe(true);
+  expect(a.isOkAnd(() => false)).toBe(false);
 });
 
 Deno.test("ok().isErrAnd() is false", () => {

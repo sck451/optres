@@ -1,4 +1,4 @@
-import { expect } from "@std/expect";
+import { expect, fn } from "@std/expect";
 import { err, ok, type Result } from "../main.ts";
 import { UnwrapError } from "../src/UnwrapError/UnwrapError.ts";
 
@@ -10,11 +10,12 @@ Deno.test("err result is Err and not Ok", () => {
 
 Deno.test("err().isOkAnd(n) is false", () => {
   const a: Result<number, string> = err("error");
-  const b: Result<string, string> = ok("hello");
-  const c: Result<number, string> = err("error");
 
-  expect(a.and(b).isOk()).toBe(false);
-  expect(a.and(c).isOk()).toBe(false);
+  const callBackReturnsTrue = fn(() => true);
+  const callBackReturnsFalse = fn(() => false);
+
+  expect(a.isOkAnd(() => callBackReturnsTrue())).toBe(false);
+  expect(a.isOkAnd(() => callBackReturnsFalse())).toBe(false);
 });
 
 Deno.test("err().isErrAnd(n) returns n()", () => {
