@@ -194,7 +194,7 @@ export class Err<T = never, E = unknown> {
    * Call `fn` if the Result is `Ok`, otherwise return the `Err`.
    * This allows the chaining of results, gathering all the possible
    * errors together while passing along a new value. It is the
-   * closest equivalent to using the `!` operator in Rust.
+   * closest equivalent to using the `?` operator in Rust.
    *
    * @param fn A function that receives the current value, and returns
    * a Result, merging the possible error types together.
