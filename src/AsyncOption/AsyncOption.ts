@@ -1,14 +1,18 @@
 import { none, type Option, some } from "../../main.ts";
 
-class AsyncOption<T> {
+export class AsyncOption<T> {
   private readonly promise: Promise<Option<T>>;
 
   constructor(promise: Promise<Option<T>>) {
     this.promise = promise.catch(() => none());
   }
 
-  static from<T>(option: Option<T>): AsyncOption<T> {
+  static fromOption<T>(option: Option<T>): AsyncOption<T> {
     return new AsyncOption(Promise.resolve(option));
+  }
+
+  static fromPromise<T>(promise: Promise<T>): AsyncOption<T> {
+    return new AsyncOption(promise.then((val) => some(val), () => none()));
   }
 
   async getOption(): Promise<Option<T>> {
