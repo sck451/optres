@@ -27,7 +27,7 @@ export class AsyncOption<T> {
     fn: (val: T) => boolean | Promise<boolean>,
   ): Promise<boolean> {
     return (await this.promise).match({
-      Some: (val) => fn(val),
+      Some: fn,
       None: () => false,
     });
   }
@@ -38,7 +38,7 @@ export class AsyncOption<T> {
 
   async isNoneOr(fn: (val: T) => boolean | Promise<boolean>): Promise<boolean> {
     return (await this.promise).match({
-      Some: (val) => fn(val),
+      Some: fn,
       None: () => true,
     });
   }
@@ -54,7 +54,7 @@ export class AsyncOption<T> {
   async unwrapOrElse(fn: () => Promise<T> | T): Promise<T> {
     return (await this.promise).match({
       Some: (val) => val,
-      None: () => fn(),
+      None: fn,
     });
   }
 
@@ -81,7 +81,7 @@ export class AsyncOption<T> {
 
   async mapOr<U>(defaultValue: U, fn: (val: T) => Promise<U> | U): Promise<U> {
     return (await this.promise).match({
-      Some: (val) => fn(val),
+      Some: fn,
       None: () => defaultValue,
     });
   }
@@ -91,8 +91,8 @@ export class AsyncOption<T> {
     someFn: (val: T) => Promise<U> | U,
   ): Promise<U> {
     return (await this.promise).match({
-      Some: (val) => someFn(val),
-      None: () => defaultFn(),
+      Some: someFn,
+      None: defaultFn,
     });
   }
 
