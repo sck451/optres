@@ -1,4 +1,4 @@
-import { none, type Option, some } from "../../main.ts";
+import { none, type Option, some } from "../Option/Option.ts";
 
 export class AsyncOption<T> {
   private readonly promise: Promise<Option<T>>;
