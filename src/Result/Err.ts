@@ -145,7 +145,7 @@ export class Err<T = never, E = unknown> {
    * Get an iterator over the `Ok` value.
    * @returns An iterator yielding the `Ok` value or nothing if `Err`.
    */
-  *[Symbol.iterator](): Iterator<T> {}
+  *[Symbol.iterator](): IteratorObject<T, void, never> {}
 
   /**
    * Unwrap the `Ok` value, or throw an error if `Err`.
