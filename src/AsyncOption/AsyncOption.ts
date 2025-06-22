@@ -76,10 +76,14 @@ export class AsyncOption<T> {
     );
   }
 
-  inspect(fn: (val: T) => void): AsyncOption<T> {
-    this.promise.then((option) => option.inspect(fn));
-
-    return this;
+  inspect(fn: (val: T) => void | Promise<void>): AsyncOption<T> {
+    return new AsyncOption(this.match<Option<T>>({
+      Some: async (val) => {
+        await fn(val);
+        return some(val);
+      },
+      None: none,
+    }));
   }
 
   async mapOr<U>(defaultValue: U, fn: (val: T) => Promise<U> | U): Promise<U> {

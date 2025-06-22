@@ -137,8 +137,8 @@ export class AsyncResult<T, E = never> {
    */
   map<U>(fn: (val: T) => Promise<U> | U): AsyncResult<U, E> {
     return new AsyncResult(
-      this.match({
-        Ok: async (val: T): Promise<Result<U, E>> => ok(await fn(val)),
+      this.match<Result<U, E>>({
+        Ok: async (val: T) => ok(await fn(val)),
         Err: err,
       }),
     );
@@ -189,9 +189,9 @@ export class AsyncResult<T, E = never> {
    */
   mapErr<F>(fn: (error: E) => F | Promise<F>): AsyncResult<T, F> {
     return new AsyncResult(
-      this.match({
+      this.match<Result<T, F>>({
         Ok: ok,
-        Err: async (error): Promise<Result<T, F>> => err(await fn(error)),
+        Err: async (error) => err(await fn(error)),
       }),
     );
   }
@@ -203,12 +203,12 @@ export class AsyncResult<T, E = never> {
    * @returns A new `AsyncResult` with the same value.
    */
   inspect(fn: (val: T) => void | Promise<void>): AsyncResult<T, E> {
-    return new AsyncResult(this.match({
+    return new AsyncResult(this.match<Result<T, E>>({
       Ok: async (val) => {
         await fn(val);
         return ok(val);
       },
-      Err: async (error): Promise<Result<T, E>> => err(error),
+      Err: async (error) => err(error),
     }));
   }
 
@@ -219,8 +219,8 @@ export class AsyncResult<T, E = never> {
    * @returns A new `AsyncResult` with the same value.
    */
   inspectErr(fn: (err: E) => void | Promise<void>): AsyncResult<T, E> {
-    return new AsyncResult(this.match({
-      Ok: async (val): Promise<Result<T, E>> => ok(val),
+    return new AsyncResult(this.match<Result<T, E>>({
+      Ok: async (val) => ok(val),
       Err: async (error) => {
         await (fn(error));
         return err(error);
