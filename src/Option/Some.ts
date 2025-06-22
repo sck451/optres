@@ -147,7 +147,7 @@ export class Some<T> {
    * Return an iterator over the {@link Some} value.
    * @returns A JavaScript iterator over 0 or 1 elements.
    */
-  *[Symbol.iterator](): IteratorObject<T, void, never> {
+  *[Symbol.iterator](): IteratorObject<T, void, undefined> {
     yield this.value;
   }
 

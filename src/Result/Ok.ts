@@ -144,7 +144,7 @@ export class Ok<T, E = never> {
    * Get an iterator over the `Ok` value.
    * @returns An iterator yielding the `Ok` value or nothing if `Err`.
    */
-  *[Symbol.iterator](): IteratorObject<T, void, never> {
+  *[Symbol.iterator](): IteratorObject<T, void, undefined> {
     yield this.value;
   }
 
