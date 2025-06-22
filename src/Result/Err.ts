@@ -150,7 +150,7 @@ export class Err<T = never, E = unknown> {
   /**
    * Unwrap the `Ok` value, or throw an error if `Err`.
    * @param message Optional custom message for the thrown error.
-   * @throws If the value is `Err`.
+   * @throws {UnwrapError} If the value is `Err`.
    * @returns The `Ok` value.
    */
   unwrap(message: string = `Expected ok() but got ${this}`): never {

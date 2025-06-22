@@ -54,7 +54,7 @@ export class None<T = never> {
   /**
    * Unwrap the value or throw an error if {@link None}.
    * @param message Optional error message if `None`.
-   * @throws {Error}
+   * @throws {UnwrapError}
    * @returns The unwrapped value of `Some`.
    */
   unwrap(message: string = "Called Option#unwrap on a None value"): T {

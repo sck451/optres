@@ -151,7 +151,7 @@ export class Ok<T, E = never> {
   /**
    * Unwrap the `Ok` value, or throw an error if `Err`.
    * @param message Optional custom message for the thrown error.
-   * @throws If the value is `Err`.
+   * @throws {UnwrapError} If the value is `Err`.
    * @returns The `Ok` value.
    */
   unwrap(message: string = `Expected ok() but got ${this}`): T {
@@ -161,7 +161,7 @@ export class Ok<T, E = never> {
   /**
    * Unwrap the `Err` value, or throw an error if `Ok`.
    * @param message Optional custom message for the thrown error.
-   * @throws If the value is `Ok`.
+   * @throws {UnwrapError} If the value is `Ok`.
    * @returns The `Err` value.
    */
   unwrapErr(message: string = `Expected error but got ${this}`): never {
