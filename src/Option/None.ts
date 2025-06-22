@@ -248,4 +248,11 @@ export class None<T = never> {
   toString(): string {
     return "none";
   }
+
+  /**
+   * Sets the default string tag for the class.
+   */
+  get [Symbol.toStringTag](): string {
+    return `None`;
+  }
 }

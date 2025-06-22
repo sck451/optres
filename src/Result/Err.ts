@@ -270,4 +270,11 @@ export class Err<T = never, E = unknown> {
   toString(): string {
     return `err(${this.error})`;
   }
+
+  /**
+   * Sets the default string tag for the class.
+   */
+  get [Symbol.toStringTag](): string {
+    return `Err`;
+  }
 }

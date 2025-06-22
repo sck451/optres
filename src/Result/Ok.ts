@@ -270,4 +270,11 @@ export class Ok<T, E = never> {
   toString(): string {
     return `ok(${this.value})`;
   }
+
+  /**
+   * Sets the default string tag for the class.
+   */
+  get [Symbol.toStringTag](): string {
+    return `Ok`;
+  }
 }

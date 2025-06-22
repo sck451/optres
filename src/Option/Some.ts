@@ -266,4 +266,11 @@ export class Some<T> {
   toString(): string {
     return `some(${this.value})`;
   }
+
+  /**
+   * Sets the default string tag for the class.
+   */
+  get [Symbol.toStringTag](): string {
+    return `Some`;
+  }
 }
