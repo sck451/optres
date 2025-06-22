@@ -4,6 +4,7 @@ import { none, type Option, some } from "../Option/Option.ts";
 
 /**
  * A wrapper around a `Promise<Result<T, E>>` providing functional-style combinators.
+ * See {@link Result} for most of the relevant ideas.
  *
  * Your code will work best if you call this with explicit type parameters, as it is
  * hard to infer correct types for asynchronous calls.
@@ -157,8 +158,8 @@ export class AsyncResult<T, E = never> {
     fn: (val: T) => U | Promise<U>,
   ): Promise<U> {
     return this.match({
-      Ok: async (val) => await fn(val),
-      Err: async () => await defaultValue,
+      Ok: fn,
+      Err: () => defaultValue,
     });
   }
 
@@ -175,8 +176,8 @@ export class AsyncResult<T, E = never> {
     fn: (val: T) => U | Promise<U>,
   ): Promise<U> {
     return this.match({
-      Ok: async (val) => await fn(val),
-      Err: async (err) => await defaultFn(err),
+      Ok: (val) => fn(val),
+      Err: (err) => defaultFn(err),
     });
   }
 
@@ -208,7 +209,7 @@ export class AsyncResult<T, E = never> {
         await fn(val);
         return ok(val);
       },
-      Err: async (error) => err(error),
+      Err: err,
     }));
   }
 
@@ -220,7 +221,7 @@ export class AsyncResult<T, E = never> {
    */
   inspectErr(fn: (err: E) => void | Promise<void>): AsyncResult<T, E> {
     return new AsyncResult(this.match<Result<T, E>>({
-      Ok: async (val) => ok(val),
+      Ok: ok,
       Err: async (error) => {
         await (fn(error));
         return err(error);
