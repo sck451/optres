@@ -1,4 +1,7 @@
+import { AsyncResult } from "../AsyncResult/AsyncResult.ts";
 import { none, type Option, some } from "../Option/Option.ts";
+import { ok } from "../Result/Ok.ts";
+import { err, type Result } from "../Result/Result.ts";
 
 export class AsyncOption<T> {
   private readonly promise: Promise<Option<T>>;
@@ -96,8 +99,11 @@ export class AsyncOption<T> {
     });
   }
 
-  okOr<E>(err: E): never { // not yet implemented
-    throw err;
+  okOr<E>(error: E): AsyncResult<T, E> {
+    return new AsyncResult(this.match<Result<T, E>>({
+      Some: ok,
+      None: () => err(error),
+    }));
   }
 
   async *[Symbol.asyncIterator](): AsyncIterator<T> {
