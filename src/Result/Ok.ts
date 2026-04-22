@@ -5,11 +5,13 @@ import { UnwrapError } from "../UnwrapError/UnwrapError.ts";
 /**
  * Construct a new {@link Ok} object
  * @returns a new Ok value
- * @typeParam T The type of a `Ok` value
+ * @typeParam T The type of a `Ok` value. Defaults to `undefined`.
  * @typeParam E The type of an `Err` value. Note that this does not have to be
  * a Javascript Error value.
  */
-export function ok<T>(value: T): Ok<T> {
+export function ok<T>(value: T): Ok<T>;
+export function ok(): Ok<void>;
+export function ok<T>(value?: T): Ok<T | void> {
   return new Ok(value);
 }
 
