@@ -1,5 +1,5 @@
 import { expect, fn } from "@std/expect";
-import { none, type Option, some } from "../main.ts";
+import { err, none, ok, type Option, type Result, some } from "../main.ts";
 
 Deno.test("some() is Some and not None", () => {
   const option = some(42);
@@ -177,4 +177,23 @@ Deno.test("some(n).match() matches correctly", () => {
 Deno.test("some().toString() should give a proper response", () => {
   const option = some(42);
   expect(String(option)).toBe("some(42)");
+});
+
+Deno.test("some(ok()).transpose() returns ok(some())", () => {
+  const option: Option<Result<number, string>> = some(ok(42));
+
+  const transposed = option.transpose();
+
+  expect(transposed.isOk()).toBe(true);
+  expect(transposed.unwrap().isSome()).toBe(true);
+  expect(transposed.unwrap().unwrap()).toBe(42);
+});
+
+Deno.test("some(err()).transpose() returns err()", () => {
+  const option: Option<Result<number, string>> = some(err("failure"));
+
+  const transposed = option.transpose();
+
+  expect(transposed.isErr()).toBe(true);
+  expect(transposed.unwrapErr()).toBe("failure");
 });

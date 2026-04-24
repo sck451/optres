@@ -1,5 +1,5 @@
 import { expect, fn } from "@std/expect";
-import { none, type Option, some } from "../main.ts";
+import { none, type Option, type Result, some } from "../main.ts";
 import { UnwrapError } from "../src/UnwrapError/UnwrapError.ts";
 
 Deno.test("none() is None and not Some", () => {
@@ -165,7 +165,16 @@ Deno.test("none.match() matches correctly", () => {
   expect(stringResult).toBe("Nothing");
 });
 
-Deno.test("some().toString() should give a proper response", () => {
+Deno.test("none().toString() should give a proper response", () => {
   const optionNone: Option<number> = none();
   expect(String(optionNone)).toBe("none");
+});
+
+Deno.test("none().transpose() returns ok(none())", () => {
+  const option: Option<Result<number, string>> = none();
+
+  const transposed = option.transpose();
+
+  expect(transposed.isOk()).toBe(true);
+  expect(transposed.unwrap().isNone()).toBe(true);
 });

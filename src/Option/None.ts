@@ -1,5 +1,5 @@
 import { type Option, type Some, some } from "./Option.ts";
-import { type Err, err } from "../Result/Result.ts";
+import { type Err, err, ok, type Result } from "../Result/Result.ts";
 import { UnwrapError } from "../UnwrapError/UnwrapError.ts";
 
 /**
@@ -239,6 +239,18 @@ export class None<T = never> {
     None: () => R;
   }): R {
     return matcher.None();
+  }
+
+  /**
+   * Convert an `Option<Result<U, E>>` into a `Result<Option<U>, E>`.
+   *
+   * `Some(Ok(U))` is mapped to `Ok(Some(U))`,
+   * `Some(Err(E))` is mapped to `Err(E)`,
+   * and `None` will be mapped to `Ok(None)`.
+   * @returns the transposed `Result`
+   */
+  transpose<U, E>(this: None<Result<U, E>>): Result<Option<U>, E> {
+    return ok(none());
   }
 
   /**

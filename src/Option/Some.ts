@@ -1,5 +1,6 @@
 import { type None, none, type Option } from "./Option.ts";
-import { type Ok, ok } from "../Result/Result.ts";
+import { type Ok, ok, type Result } from "../Result/Result.ts";
+import { err } from "../Result/Err.ts";
 
 /**
  * Construct a new {@link Some} object
@@ -257,6 +258,21 @@ export class Some<T> {
     None: () => R;
   }): R {
     return matcher.Some(this.value);
+  }
+
+  /**
+   * Convert an `Option<Result<U, E>>` into a `Result<Option<U>, E>`.
+   *
+   * `Some(Ok(U))` is mapped to `Ok(Some(U))`,
+   * `Some(Err(E))` is mapped to `Err(E)`,
+   * and `None` will be mapped to `Ok(None)`.
+   * @returns the transposed `Result`
+   */
+  transpose<U, E>(this: Some<Result<U, E>>): Result<Option<U>, E> {
+    return this.value.match<Result<Option<U>, E>>({
+      Ok: (value) => ok(some(value)),
+      Err: (error) => err(error),
+    });
   }
 
   /**

@@ -1,5 +1,5 @@
 import { expect, fn } from "@std/expect";
-import { err, ok, type Result } from "../main.ts";
+import { err, ok, type Option, type Result } from "../main.ts";
 import { UnwrapError } from "../src/UnwrapError/UnwrapError.ts";
 
 Deno.test("err result is Err and not Ok", () => {
@@ -182,4 +182,14 @@ Deno.test("err().match calls the Err branch", () => {
 
 Deno.test("err().toString() formats result correctly", () => {
   expect(err("problem").toString()).toBe("err(problem)");
+});
+
+Deno.test("err().transpose() returns some(err())", () => {
+  const result: Result<Option<number>, string> = err("failure");
+
+  const transposed = result.transpose();
+
+  expect(transposed.isSome()).toBe(true);
+  expect(transposed.unwrap().isErr()).toBe(true);
+  expect(transposed.unwrap().unwrapErr()).toBe("failure");
 });
