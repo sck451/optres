@@ -273,10 +273,12 @@ export class Ok<T, E = never> {
 
   /**
    * Convert a `Result<Option<U>, E>` into a `Option<Result<U, E>>`.
+   * Note that this function will cause a type error if the value contained is not an `Option`.
    *
    * `Ok(None)` will be mapped to `None`.
    * `Ok(Some(U))` and `Err(E)` will be mapped to `Some(Ok(U))` and `Some(Err(E))`.
    * @returns the transposed `Option`
+   * @typeParam U The nested `Option` type
    */
   transpose<U>(this: Ok<Option<U>, E>): Option<Result<U, E>> {
     return this.value.map((value) => ok(value));

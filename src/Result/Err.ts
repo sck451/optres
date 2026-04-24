@@ -271,10 +271,12 @@ export class Err<T = never, E = unknown> {
 
   /**
    * Convert a `Result<Option<U>, E>` into a `Option<Result<U, E>>`.
+   * Note that this function will cause a type error if the value contained is not an `Option`.
    *
    * `Ok(None)` will be mapped to `None`.
    * `Ok(Some(U))` and `Err(E)` will be mapped to `Some(Ok(U))` and `Some(Err(E))`.
    * @returns the transposed `Option`
+   * @typeParam U The nested `Option` type
    */
   transpose<U>(this: Err<Option<U>, E>): Option<Result<U, E>> {
     return some(err(this.error));

@@ -243,11 +243,14 @@ export class None<T = never> {
 
   /**
    * Convert an `Option<Result<U, E>>` into a `Result<Option<U>, E>`.
+   * Note that this function will cause a type error if the value contained is not a `Result`.
    *
    * `Some(Ok(U))` is mapped to `Ok(Some(U))`,
    * `Some(Err(E))` is mapped to `Err(E)`,
    * and `None` will be mapped to `Ok(None)`.
    * @returns the transposed `Result`
+   * @typeParam U The nested `Result` success type
+   * @typeParam E The nested `Result` error type
    */
   transpose<U, E>(this: None<Result<U, E>>): Result<Option<U>, E> {
     return ok(none());
