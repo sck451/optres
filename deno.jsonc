@@ -1,11 +1,11 @@
 {
   "name": "@sck/optres",
   "exports": "./main.ts",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "license": "MIT",
   "lint": { "rules": { "tags": ["jsr"] } },
   "imports": {
-    "@std/expect": "jsr:@std/expect@1"
+    "@std/expect": "jsr:@std/expect@^1.0.19"
   },
   "compilerOptions": { // standard stricter ts options
     "exactOptionalPropertyTypes": true,
