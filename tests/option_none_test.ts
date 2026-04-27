@@ -178,3 +178,8 @@ Deno.test("none().transpose() returns ok(none())", () => {
   expect(transposed.isOk()).toBe(true);
   expect(transposed.unwrap().isNone()).toBe(true);
 });
+
+Deno.test("toStringTag", () => {
+  const optionNone: Option<number> = none();
+  expect(Object.prototype.toString.call(optionNone)).toBe("[object None]");
+});

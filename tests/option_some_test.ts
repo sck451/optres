@@ -197,3 +197,8 @@ Deno.test("some(err()).transpose() returns err()", () => {
   expect(transposed.isErr()).toBe(true);
   expect(transposed.unwrapErr()).toBe("failure");
 });
+
+Deno.test("toStringTag", () => {
+  const optionNone: Option<number> = some(0);
+  expect(Object.prototype.toString.call(optionNone)).toBe("[object Some]");
+});

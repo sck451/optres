@@ -183,3 +183,8 @@ Deno.test("ok(none()).transpose() returns none()", () => {
 
   expect(transposed.isNone()).toBe(true);
 });
+
+Deno.test("toStringTag", () => {
+  const resultErr: Result<number, string> = err("error");
+  expect(Object.prototype.toString.call(resultErr)).toBe("[object Err]");
+});
