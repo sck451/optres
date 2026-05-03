@@ -198,3 +198,25 @@ Deno.test("toStringTag", () => {
   const resultOk: Result<number, string> = ok(0);
   expect(Object.prototype.toString.call(resultOk)).toBe("[object Ok]");
 });
+
+Deno.test("err().equals", async (t) => {
+  await t.step(`err("0").equals(err("0"))`, () => {
+    expect(err("0").equals(err("0"))).toBeTruthy();
+  });
+  await t.step(`err("0").equals(err("1"))`, () => {
+    expect(err("0").equals(err("1"))).toBeFalsy();
+  });
+  await t.step(`err("0").equals(ok(0))`, () => {
+    const result: Result<number, string> = err("0");
+    expect(result.equals(ok(0))).toBeFalsy();
+  });
+  await t.step("err().equals() should treat NaN as equal", () => {
+    expect(err(NaN).equals(err(NaN))).toBeTruthy();
+  });
+  await t.step(
+    "err().equals() should distinguish positive and negative zero",
+    () => {
+      expect(err(0).equals(err(-0))).toBeFalsy();
+    },
+  );
+});

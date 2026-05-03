@@ -202,3 +202,21 @@ Deno.test("toStringTag", () => {
   const optionNone: Option<number> = some(0);
   expect(Object.prototype.toString.call(optionNone)).toBe("[object Some]");
 });
+
+Deno.test("some().equals", async (t) => {
+  await t.step(`two equal Some values`, () => {
+    expect(some(0).equals(some(0))).toBeTruthy();
+  });
+  await t.step(`non-equal Some values`, () => {
+    expect(some(0).equals(some(1))).toBeFalsy();
+  });
+  await t.step(`none value`, () => {
+    expect(some(0).equals(none())).toBeFalsy();
+  });
+  await t.step(`should treat NaN as equal`, async (t) => {
+    expect(some(NaN).equals(some(NaN))).toBeTruthy();
+  });
+  await t.step(`should distinguish negative and positive 0`, async (t) => {
+    expect(some(0).equals(some(-0))).toBeFalsy();
+  });
+});

@@ -183,3 +183,12 @@ Deno.test("toStringTag", () => {
   const optionNone: Option<number> = none();
   expect(Object.prototype.toString.call(optionNone)).toBe("[object None]");
 });
+
+Deno.test("none().equals", async (t) => {
+  await t.step(`two None values`, () => {
+    expect(none().equals(none())).toBeTruthy();
+  });
+  await t.step(`Some value`, () => {
+    expect(none<number>().equals(some(0))).toBeFalsy();
+  });
+});

@@ -296,4 +296,20 @@ export class Err<T = never, E = unknown> {
   get [Symbol.toStringTag](): string {
     return `Err`;
   }
+
+  /**
+   * Checks another `Result` for equality.
+   *
+   * If both are `Ok` or both are `Err`, tests for equality with `Object.is`.
+   * Otherwise, returns `false`.
+   *
+   * @param otherResult The result to test against
+   * @returns boolean `true` if the Results are equal, otherwise `false`
+   */
+  equals(otherResult: Result<T, E>): boolean {
+    return otherResult.match({
+      Ok: () => false,
+      Err: (error) => Object.is(this.error, error),
+    });
+  }
 }

@@ -292,4 +292,21 @@ export class Some<T> {
   get [Symbol.toStringTag](): string {
     return `Some`;
   }
+
+  /**
+   * Checks another option for equality.
+   *
+   * If both options are `None`, returns `true`.
+   * If both options are `Some`, tests for equality with `Object.is`.
+   * Otherwise, returns `false`.
+   *
+   * @param otherOption The option to compare with
+   * @returns boolean `true` if the options are equal, otherwise `false`
+   */
+  equals(otherOption: Option<T>): boolean {
+    return otherOption.match({
+      Some: (value) => Object.is(this.value, value),
+      None: () => false,
+    });
+  }
 }
